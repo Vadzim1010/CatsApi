@@ -1,15 +1,14 @@
 package com.example.catsapi.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.catsapi.databinding.CatItemBinding
 import com.example.catsapi.model.Cat
 import com.example.catsapi.ui.CardViewClickListener
+import com.example.catsapi.utils.setImageByGlide
 
 class CatsListAdapter(private val listener: CardViewClickListener) :
     PagingDataAdapter<Cat, CatViewHolder>(CatDiffItemCallback()) {
@@ -17,7 +16,7 @@ class CatsListAdapter(private val listener: CardViewClickListener) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = CatItemBinding.inflate(layoutInflater, parent, false)
-        return CatViewHolder(binding, binding.root.context, listener)
+        return CatViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
@@ -27,17 +26,16 @@ class CatsListAdapter(private val listener: CardViewClickListener) :
 
 class CatViewHolder(
     private val binding: CatItemBinding,
-    private val context: Context,
     private val listener: CardViewClickListener,
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(cat: Cat) = binding.run {
-        Glide
-            .with(context)
-            .load(cat.imageUrl)
-            .into(catImage)
+        catImage.setImageByGlide(cat.imageUrl)
+        initButtons(cat)
+    }
 
+    private fun initButtons(cat: Cat) = binding.run {
         cardView.setOnClickListener {
             listener.onCardViewClickListener(cat)
         }

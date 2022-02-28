@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.catsapi.R
 import com.example.catsapi.databinding.FragmentSaveCatBinding
 import com.example.catsapi.ui.MainActivity
+import com.example.catsapi.utils.setImageByGlide
 import kotlin.random.Random
 
 class SaveCatFragment : Fragment() {
@@ -35,14 +36,14 @@ class SaveCatFragment : Fragment() {
 
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        Glide
-            .with(this)
-            .load(args.imageUrl)
-            .error(R.drawable.ic_launcher_background)
-            .into(binding.catImage)
+        binding.catImage.setImageByGlide(args.imageUrl)
 
-        binding.saveCatButton.setOnClickListener {
-            saveImage(binding.catImage.drawToBitmap())
+        initButtons()
+    }
+
+    private fun initButtons() = binding.run {
+        saveCatButton.setOnClickListener {
+            saveImage(catImage.drawToBitmap())
         }
     }
 

@@ -1,9 +1,9 @@
 package com.example.catsapi.data.remote
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.catsapi.model.Cat
+import com.example.catsapi.utils.mapApiDataListToCatList
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -24,17 +24,13 @@ class CatPageSource(
             val response = catApiService.getCats(page, pageSize)
 
             return if (response.isSuccessful) {
-                val cats = response.body()?.map {
-                    Cat(it.id,
-                        it.imageUrl)
-                }
+                val cats = response.body()?.mapApiDataListToCatList()
 
                 val nextKey = if (cats?.size!! < pageSize) null else page + 1
                 val prevKey = if (page == 1) null else page - 1
 
                 LoadResult.Page(cats, prevKey, nextKey)
             } else {
-                Log.e("TAG", "$response")
                 LoadResult.Error(HttpException(response))
             }
         } catch (exception: IOException) {
