@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/catsListFragment">
+    <fragment
+        android:id="@+id/catsListFragment"
+        android:name="com.example.catsapi.ui.home.CatsListFragment"
+        android:label="fragment_cats_list"
+        tools:layout="@layout/fragment_cats_list" >
+        <action
+            android:id="@+id/action_catsListFragment_to_saveCatFragment"
+            app:destination="@id/saveCatFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:launchSingleTop="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/saveCatFragment"
+        android:name="com.example.catsapi.ui.savecat.SaveCatFragment"
+        android:label="fragment_save_cat"
+        tools:layout="@layout/fragment_save_cat" >
+        <action
+            android:id="@+id/action_saveCatFragment_to_catsListFragment"
+            app:destination="@id/catsListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+    </fragment>
+</navigation>
